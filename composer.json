@@ -1,5 +1,5 @@
 {
-    "name": "dhii/data-key-value-aware-trait",
+    "name": "dhii/data-key-value-aware-abstract",
     "description": "Traits for objects that are aware of a key, a value, or both.",
     "type": "library",
     "license": "MIT",
