@@ -2,11 +2,12 @@
 
 namespace Dhii\Data\FuncTest;
 
-
 use Dhii\Data\KeyAwareTrait as TestSubject;
-
+use InvalidArgumentException;
+use stdClass;
 use Xpmock\TestCase;
 use Exception as RootException;
+use Dhii\Util\String\StringableInterface as Stringable;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use PHPUnit_Framework_MockObject_MockBuilder as MockBuilder;
 
@@ -113,6 +114,45 @@ class KeyAwareTraitTest extends TestCase
     }
 
     /**
+     * Creates a new Invalid Argument exception.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $message The exception message.
+     *
+     * @return InvalidArgumentException The new exception.
+     */
+    public function createInvalidArgumentException($message = '')
+    {
+        $mock = $this->getMockBuilder('InvalidArgumentException')
+            ->setConstructorArgs([$message])
+            ->getMock();
+
+        return $mock;
+    }
+
+    /**
+     * Creates a new stringable.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $string The string for the stringable to represent.
+     *
+     * @return MockObject|Stringable The new stringable mock.
+     */
+    public function createStringable($string = '')
+    {
+        $mock = $this->getMockBuilder('Dhii\Util\String\StringableInterface')
+            ->setMethods(['__toString'])
+            ->getMock();
+
+        $mock->method('__toString')
+            ->will($this->returnValue($string));
+
+        return $mock;
+    }
+
+    /**
      * Tests whether a valid instance of the test subject can be created.
      *
      * @since [*next-version*]
@@ -155,9 +195,53 @@ class KeyAwareTraitTest extends TestCase
         $subject = $this->createInstance();
         $_subject = $this->reflect($subject);
 
+        $subject->expects($this->exactly(1))
+            ->method('_normalizeString')
+            ->with($key)
+            ->will($this->returnValue($key));
+
         $_subject->key = null;
         $_subject->_setKey($key);
         $result = $_subject->key;
         $this->assertEquals($key, $result, 'Incorrect key retrieved from subject');
+    }
+
+    /**
+     * Tests whether `_setKey()` works as expected when given a stringable.
+     *
+     * @since [*next-version*]
+     */
+    public function testSetKeyStringable()
+    {
+        $key = uniqid('key');
+        $stringable = $this->createStringable($key);
+        $subject = $this->createInstance(['_normalizeString']);
+        $_subject = $this->reflect($subject);
+
+        $_subject->key = null;
+        $_subject->_setKey($stringable);
+        $result = $_subject->key;
+        $this->assertEquals($key, $result, 'Incorrect key retrieved from subject');
+    }
+
+    /**
+     * Tests whether `_setKey()` fails as expected when given a non-stringable object.
+     *
+     * @since [*next-version*]
+     */
+    public function testSetKeyObject()
+    {
+        $key = new stdClass();
+        $exception = $this->createInvalidArgumentException('Invalid key');
+        $subject = $this->createInstance();
+        $_subject = $this->reflect($subject);
+
+        $subject->expects($this->exactly(1))
+            ->method('_normalizeString')
+            ->with($key)
+            ->will($this->throwException($exception));
+
+        $this->setExpectedException('InvalidArgumentException');
+        $_subject->_setKey($key);
     }
 }
