@@ -36,13 +36,9 @@ trait ValueAwareTrait
      * @since [*next-version*]
      *
      * @param string $value The value.
-     *
-     * @return $this
      */
     protected function _setValue($value)
     {
         $this->value = $value;
-
-        return $this;
     }
 }

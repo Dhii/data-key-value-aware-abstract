@@ -1,11 +1,10 @@
 <?php
 
-namespace Dhii\Data\FuncTest;
+namespace Dhii\Data\UnitTest;
 
-use Dhii\Data\KeyAwareTrait as TestSubject;
+use Dhii\Data\ValueAwareTrait as TestSubject;
 use Xpmock\TestCase;
 use Exception as RootException;
-use Dhii\Util\String\StringableInterface as Stringable;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use PHPUnit_Framework_MockObject_MockBuilder as MockBuilder;
 
@@ -14,14 +13,14 @@ use PHPUnit_Framework_MockObject_MockBuilder as MockBuilder;
  *
  * @since [*next-version*]
  */
-class KeyAwareTraitTest extends TestCase
+class ValueAwareTraitTest extends TestCase
 {
     /**
      * The class name of the test subject.
      *
      * @since [*next-version*]
      */
-    const TEST_SUBJECT_CLASSNAME = 'Dhii\Data\KeyAwareTrait';
+    const TEST_SUBJECT_CLASSNAME = 'Dhii\Data\ValueAwareTrait';
 
     /**
      * Creates a new instance of the test subject.
@@ -112,27 +111,6 @@ class KeyAwareTraitTest extends TestCase
     }
 
     /**
-     * Creates a new stringable.
-     *
-     * @since [*next-version*]
-     *
-     * @param string $string The string for the stringable to represent.
-     *
-     * @return MockObject|Stringable The new stringable mock.
-     */
-    public function createStringable($string = '')
-    {
-        $mock = $this->getMockBuilder('Dhii\Util\String\StringableInterface')
-            ->setMethods(['__toString'])
-            ->getMock();
-
-        $mock->method('__toString')
-            ->will($this->returnValue($string));
-
-        return $mock;
-    }
-
-    /**
      * Tests whether a valid instance of the test subject can be created.
      *
      * @since [*next-version*]
@@ -149,78 +127,35 @@ class KeyAwareTraitTest extends TestCase
     }
 
     /**
-     * Tests whether `_getKey()` is consistent with `_setKey()` when given a string.
+     * Tests whether `_getValue()` works as expected.
      *
      * @since [*next-version*]
      */
-    public function testSetGetKeyString()
+    public function testGetValue()
     {
-        $key = uniqid('key');
-        $subject = $this->createInstance(['_normalizeString']);
-        $_subject = $this->reflect($subject);
-
-        $subject->expects($this->exactly(1))
-            ->method('_normalizeString')
-            ->with($key)
-            ->will($this->returnValue($key));
-
-        $_subject->_setKey($key);
-        $result = $_subject->_getKey();
-        $this->assertEquals($key, $result, 'Key retrieved is not the same as key set');
-    }
-
-    /**
-     * Tests whether `_getKey()` is consistent with `_setKey()` when given a stringable.
-     *
-     * @since [*next-version*]
-     */
-    public function testSetGetKeyStringable()
-    {
-        $key = uniqid('key');
-        $stringable = $this->createStringable($key);
+        $val = uniqid('val');
         $subject = $this->createInstance();
         $_subject = $this->reflect($subject);
 
-        $_subject->_setKey($stringable);
-        $result = $_subject->_getKey();
-        $this->assertEquals($key, $result, 'Key retrieved is not the same as key set');
+        $_subject->value = $val;
+        $result = $_subject->_getValue();
+        $this->assertEquals($val, $result, 'Incorrect value retrieved from subject');
     }
 
     /**
-     * Tests whether `_getKey()` is consistent with `_setKey()` when given an integer.
+     * Tests whether `_setValue()` works as expected.
      *
      * @since [*next-version*]
      */
-    public function testSetGetKeyInt()
+    public function testSetValue()
     {
-        $key = rand(1, 99);
-        $subject = $this->createInstance(['_normalizeString']);
-        $_subject = $this->reflect($subject);
-
-        $subject->expects($this->exactly(1))
-            ->method('_normalizeString')
-            ->with($key)
-            ->will($this->returnValue((string) $key));
-
-        $_subject->_setKey($key);
-        $result = $_subject->_getKey();
-        $this->assertEquals((string) $key, $result, 'Key retrieved is not consistent with key set');
-    }
-
-    /**
-     * Tests whether `_getKey()` is consistent with `_setKey()` when given a null.
-     *
-     * @since [*next-version*]
-     */
-    public function testSetGetKeyNull()
-    {
-        $key = null;
+        $val = uniqid('val');
         $subject = $this->createInstance();
         $_subject = $this->reflect($subject);
 
-        $_subject->key = uniqid('key');
-        $_subject->_setKey($key);
-        $result = $_subject->_getKey();
-        $this->assertEquals($key, $result, 'Key retrieved is not the same as key set');
+        $_subject->value = null;
+        $_subject->_setValue($val);
+        $result = $_subject->value;
+        $this->assertEquals($val, $result, 'Incorrect value retrieved from subject');
     }
 }

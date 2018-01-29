@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [[*next-version*]] - YYYY-MM-DD
 
+## [0.1-alpha3] - 2018-01-29
+### Changed
+- `KeyAwareTrait` now also accepts `null` keys.
+
 ## [0.1-alpha2] - 2018-01-29
 ### Changed
 - `KeyAwareTrait` now accepts Stringables and scalars.
