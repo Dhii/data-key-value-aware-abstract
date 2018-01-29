@@ -52,8 +52,6 @@ trait KeyAwareTrait
         }
 
         $this->key = $key;
-
-        return $this;
     }
 
     /**
