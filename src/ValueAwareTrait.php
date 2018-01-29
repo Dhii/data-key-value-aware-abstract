@@ -36,8 +36,6 @@ trait ValueAwareTrait
      * @since [*next-version*]
      *
      * @param string $value The value.
-     *
-     * @return void
      */
     protected function _setValue($value)
     {
