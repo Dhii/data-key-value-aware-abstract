@@ -215,7 +215,7 @@ class KeyAwareTraitTest extends TestCase
     {
         $key = uniqid('key');
         $stringable = $this->createStringable($key);
-        $subject = $this->createInstance(['_normalizeString']);
+        $subject = $this->createInstance();
         $_subject = $this->reflect($subject);
 
         $_subject->key = null;
@@ -243,5 +243,21 @@ class KeyAwareTraitTest extends TestCase
 
         $this->setExpectedException('InvalidArgumentException');
         $_subject->_setKey($key);
+    }
+
+    /**
+     * Tests whether `_setKey()` works as expected when given a `null`.
+     *
+     * @since [*next-version*]
+     */
+    public function testSetKeyNull()
+    {
+        $key = null;
+        $subject = $this->createInstance();
+        $_subject = $this->reflect($subject);
+
+        $_subject->_setKey($key);
+        $result = $_subject->key;
+        $this->assertEquals($key, $result, 'Incorrect key retrieved from subject');
     }
 }
