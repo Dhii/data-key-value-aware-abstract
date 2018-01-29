@@ -42,6 +42,8 @@ trait KeyAwareTrait
      *                                              everything else wll be normalized to string.
      *
      * @throws InvalidArgumentException If key is not {@link Stringable} and could not be converted to string.
+     *
+     * @return void
      */
     protected function _setKey($key)
     {
