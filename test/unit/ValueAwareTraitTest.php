@@ -1,6 +1,6 @@
 <?php
 
-namespace Dhii\Data\FuncTest;
+namespace Dhii\Data\UnitTest;
 
 use Dhii\Data\ValueAwareTrait as TestSubject;
 use Xpmock\TestCase;

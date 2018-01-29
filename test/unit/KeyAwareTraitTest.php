@@ -1,6 +1,6 @@
 <?php
 
-namespace Dhii\Data\FuncTest;
+namespace Dhii\Data\UnitTest;
 
 use Dhii\Data\KeyAwareTrait as TestSubject;
 use InvalidArgumentException;
