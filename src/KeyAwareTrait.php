@@ -17,7 +17,7 @@ trait KeyAwareTrait
      *
      * @since [*next-version*]
      *
-     * @var string|Stringable
+     * @var string|Stringable|null
      */
     protected $key;
 
@@ -26,7 +26,7 @@ trait KeyAwareTrait
      *
      * @since [*next-version*]
      *
-     * @return string|Stringable The key.
+     * @return string|Stringable|null The key.
      */
     protected function _getKey()
     {
@@ -38,8 +38,8 @@ trait KeyAwareTrait
      *
      * @since [*next-version*]
      *
-     * @param string|int|float|bool|Stringable $key The key. Stringable objects will be stored as is;
-     *                                              everything else wll be normalized to string.
+     * @param string|int|float|bool|Stringable|null $key The key. Stringable objects will be stored as is;
+     *                                                   everything else wll be normalized to string.
      *
      * @throws InvalidArgumentException If key is not {@link Stringable} and could not be converted to string.
      *
@@ -47,7 +47,7 @@ trait KeyAwareTrait
      */
     protected function _setKey($key)
     {
-        if (!($key instanceof Stringable)) {
+        if (!($key instanceof Stringable) && !is_null($key)) {
             $key = $this->_normalizeString($key);
         }
 
