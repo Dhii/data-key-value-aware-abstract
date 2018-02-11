@@ -14,12 +14,15 @@ Traits for objects that are aware of a key, a value, or both.
 be [normalized to string][`NormalizeStringCapableTrait`], or a [Stringable][`StringableInterface`] or `null`,
 in which case it will be preserved.
 - [`ValueAwareTrait`] - Allows storage and retrieval of a value. A value can be anything.
+- [`NameAwareTrait`][NameAwareTrait] - Allows storage and retrieval of a name. A name is a string or stringable that
+identifies something in a narrow scope.
 
 [Dhii]: https://github.com/Dhii/dhii
 
 [`KeyAwareTrait`]:                      src/KeyAwareTrait.php
 [`ValueAwareTrait`]:                    src/ValueAwareTrait.php
 [`KeyValueAwareTrait`]:                 src/KeyValueAwareTrait.php
+[NameAwareTrait]:                       src/NameAwareTrait.php
 
 [`NormalizeStringCapableTrait`]:        https://github.com/Dhii/normalization-helper-base/blob/develop/src/NormalizeStringCapableTrait.php
 [`StringableInterface`]:                https://github.com/Dhii/stringable-interface/blob/develop/src/StringableInterface.php

@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [[*next-version*]] - YYYY-MM-DD
+### Added
+- `NameAwareTrait`.
+- Phan config.
 
 ## [0.1-alpha3] - 2018-01-29
 ### Changed
